@@ -1,34 +1,25 @@
-import React from "react";
-import ResultsContainer from "../components/ResultsContainer";
+import React, { Component } from "react";
 import API from "../utils/API";
+import Results from "../components/Results";
 
-class Saved extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            savedBooks: []
-        }
+class Saved extends Component {
+    state = {
+        savedBooks: [],
     }
 
-    componentWillMount() {
-        API.getBooks().then(
-            (response) => {
-                this.setState({savedBooks: response.data});
-            }
-        ).catch(
-            (err) => {
-                console.log(err);
-            }
-        );
+    componentDidMount() {
+        API.savedBooks()
+            .then(savedBooks => this.setState({ savedBooks: savedBooks }))
+            .catch(err => console.error(err));
     }
 
     render() {
-        console.log(this.state.savedBooks);
-        return(
-            <main>
-                <ResultsContainer savedBooks={this.state.savedBooks} path={this.props.match.path}/>
-            </main>
-        );
+        return (
+            <div className="container">
+                <h2>Saved books</h2>
+                <Results books={this.state.savedBooks} />
+            </div>
+        )
     }
 }
 
