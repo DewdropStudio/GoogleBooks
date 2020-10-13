@@ -1,33 +1,29 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import Header from "./components/Header";
-import Wrapper from "./components/Wrapper";
-
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Home from "./pages/Home";
+import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
-import Search from "./pages/Search";
-import Saved from "./pages/Saved";
+import Nav from "./components/Nav";
+import { StoreProvider } from "./utils/GlobalState";
+import SavedList from "./pages/SavedList";
 
-import "./App.css";
-
-class App extends Component {
- 
-  render() {
-    return (
-      <Router>
-        <div>
-          <NavBar />
-          <Header />
-          <Wrapper>
-            <Route exact path="/" component={Search} />
-            <Route exact path="/search" component={Search} />
-            <Route exact path="/saved" component={Saved} />
-            <Route exact path="/noMatch" component={NoMatch} />
-          </Wrapper>
-        </div>
-      </Router>
-    )
-  };
-};
+function App() {
+  return (
+    <Router>
+      <div>
+        <StoreProvider>
+          <Nav />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/home" component={Home} />
+            <Route exact path="/saved" component={SavedList} />
+            <Route exact path="/book/:id" component={Detail} />
+            <Route component={NoMatch} />
+          </Switch>
+        </StoreProvider>
+      </div>
+    </Router>
+  );
+}
 
 export default App;
